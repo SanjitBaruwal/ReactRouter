@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Drawer,
   IconButton,
@@ -32,7 +33,14 @@ const DrawerComponent = ({ links }) => {
           {links.map((link, index) => (
             <ListItemButton key={index} divider onClick={() => setOpen(!open)}>
               <ListItemIcon>
-                <ListItemText sx={{ color: "white" }}>{link}</ListItemText>
+                <ListItemText sx={{ color: "white" }}>
+                  <Link
+                    style={{ textDecoration: "none", color: "inherit" }}
+                    to={`${link}` === ("Home" || "home") ? "/" : `/${link}`}
+                  >
+                    {link}
+                  </Link>
+                </ListItemText>
               </ListItemIcon>
             </ListItemButton>
           ))}

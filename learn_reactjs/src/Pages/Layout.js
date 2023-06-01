@@ -7,23 +7,24 @@ import {
   Tabs,
   Toolbar,
   Typography,
-  createMuiTheme,
+  createTheme,
   useMediaQuery,
 } from "@mui/material";
 import React, { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
 import DrawerComponent from "../Component/DrawerComponent";
 
 const Layout = ({ links }) => {
-  const theme = createMuiTheme();
+  const theme = createTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("md"));
-  const [value, setValue] = useState();
+  const [value, setValue] = useState(0);
 
   return (
-    <>
+    <div>
       <AppBar
         sx={{
+          height: "8vh",
           backgroundImage:
             "linear-gradient(30deg, rgba(1,0,25,1) 0%, rgba(2,9,124,1) 45%, rgba(255,0,237,1) 100%)",
         }}
@@ -50,15 +51,21 @@ const Layout = ({ links }) => {
                   value={value}
                   onChange={(e, val) => setValue(val)}
                 >
-                  {/* try to add routing here using <Link/> and <Outlet/> from react-router-dom. */}
+                  {/* try to add routing here using <Link/> from react-router-dom. and add extra tab componet after appbar to render the components below the app bars when clicking on the tabs.  */}
                   {links.map((link, index) => (
-                    <Link
+                    <Tab
                       key={index}
-                      to={`/${link.toLowerCase()}`}
-                      style={{ textDecoration: "none", color: "inherit" }}
-                    >
-                      <Tab label={link} />
-                    </Link>
+                      label={
+                        <Link
+                          style={{ textDecoration: "none", color: "inherit" }}
+                          to={
+                            `${link}` === ("Home" || "home") ? "/" : `/${link}`
+                          }
+                        >
+                          {link}
+                        </Link>
+                      }
+                    />
                   ))}
                 </Tabs>
               </Grid>
@@ -73,7 +80,12 @@ const Layout = ({ links }) => {
                       borderRadius: "50px",
                     }}
                   >
-                    Login
+                    <Link
+                      to="/login"
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      Login
+                    </Link>
                   </Button>
                   <Button
                     variant="contained"
@@ -83,7 +95,12 @@ const Layout = ({ links }) => {
                       borderRadius: "50px",
                     }}
                   >
-                    Signup
+                    <Link
+                      to="/signup"
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      Signup
+                    </Link>
                   </Button>
                 </Box>
               </Grid>
@@ -91,8 +108,8 @@ const Layout = ({ links }) => {
           )}
         </Toolbar>
       </AppBar>
-      <Outlet />
-    </>
+      <Toolbar />
+    </div>
   );
 };
 
